@@ -7,7 +7,7 @@
     <br />
     <input class="input" v-model="description" type="text" name="description"  placeholder="Enter Description" />
     <br />
-    <button class="submit-button" @click="addTodo">Add Todo</button>
+    <button class="submit-button" @click="handleAddTodo">Add Todo</button>
   </form>
   <div class="todo-container">
     <ul>
@@ -16,7 +16,7 @@
         <span class="todo-name">{{ todo.title }}</span>
         <span class="todo-description">{{ todo.description }}</span>
       </div>
-        <button class="delete-btn" @click="removeTodo(todo, i)">DELETE TODO</button>
+        <button class="delete-btn" @click="handleRemoveTodo(todo, i)">DELETE TODO</button>
       </li>
     </ul>
   </div>
@@ -25,6 +25,8 @@
 
 <script>
 import axios from "axios";
+import { traceSpan } from "./tracing";
+
 export default {
   name: "App",
   data() {
@@ -39,8 +41,7 @@ export default {
     this.todos = response.data;
   },
   methods: {
-    async addTodo(e) {
-      e.preventDefault();
+    async addTodo() {
       const response = await axios.post("api/todoList/", {
         title: this.title,
         description: this.description
@@ -53,6 +54,13 @@ export default {
       await axios.delete("api/todoList/" + item._id);
       this.todos.splice(i, 1);
     },
+    async handleAddTodo(e){
+      e.preventDefault();
+      await traceSpan("addTodo", this.addTodo);
+    },
+    async handleRemoveTodo(todo, i){
+      await traceSpan("removeTodo", this.removeTodo(todo, i));
+    }
   }
 };
 </script>
