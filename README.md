@@ -11,7 +11,6 @@ Get into `/server` folder & install packages
 ```
 cd server
 npm i
-
 ```
 
 **Client:**
@@ -22,7 +21,6 @@ Get into `/client` folder & install packages
 ```
 cd client
 npm i
-
 ```
 
 ### Running the application
@@ -30,7 +28,6 @@ Get into the `server` folder.
 
 ```
 cd server
-
 ```
 
 Before running the server, create a MongoDB connection and get the mongodb_uri. 
@@ -39,22 +36,11 @@ Finally, run the following command to start both `server` and `client`
 
 ```
 npm run dev
-
-```
-
-### Running SigNoz
-Get into `./signoz` folder.
-
-```
-cd signoz/deploy
-./install.sh
-
 ```
 
 Run the following commands to set these env variables
 
 ```
-export OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4317"
+export OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4318"
 export OTEL_RESOURCE_ATTRIBUTES=service.name=mevn-signoz
-
 ```
